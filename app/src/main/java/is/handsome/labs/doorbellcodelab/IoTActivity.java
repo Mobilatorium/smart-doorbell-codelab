@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.google.android.things.contrib.driver.button.Button;
 import com.google.android.things.pio.Gpio;
-import com.google.android.things.pio.GpioCallback;
 import com.google.android.things.pio.PeripheralManagerService;
 
 import java.io.IOException;
@@ -18,21 +18,7 @@ public class IoTActivity extends Activity {
     private static final String GPIO_PIN_LED_NAME = "BCM6";
     private static final int INTERVAL_BETWEEN_BLINKS_MS = 1000;
 
-    private Gpio buttonGpio;
-    private GpioCallback buttonGpioCallback = new GpioCallback() {
-        @Override
-        public boolean onGpioEdge(Gpio gpio) {
-
-            Timber.d(gpio + ": pressed");
-            // Step 1.5. Return true to keep callback active.
-            return true;
-        }
-
-        @Override
-        public void onGpioError(Gpio gpio, int error) {
-            Timber.e(gpio + ": error " + error);
-        }
-    };
+    private Button button;
 
     private Gpio ledGpio;
     private Handler handler = new Handler();
@@ -68,14 +54,16 @@ public class IoTActivity extends Activity {
 
         try {
             // Button
-            // Step 1.1. Create GPIO connection.
-            buttonGpio = service.openGpio(GPIO_PIN_BUTTON_NAME);
-            // Step 1.2. Configure as an input.
-            buttonGpio.setDirection(Gpio.DIRECTION_IN);
-            // Step 1.3. Enable edge trigger events.
-            buttonGpio.setEdgeTriggerType(Gpio.EDGE_FALLING);
-            // Step 1.4. Register an event callback.
-            buttonGpio.registerGpioCallback(buttonGpioCallback);
+            button = new Button(
+                    GPIO_PIN_BUTTON_NAME,
+                    Button.LogicState.PRESSED_WHEN_LOW);
+            button.setOnButtonEventListener(new Button.OnButtonEventListener() {
+                @Override
+                public void onButtonEvent(Button button, boolean pressed) {
+                    String pressedString = pressed ? "pressed" : "unpressed";
+                    Timber.d(GPIO_PIN_BUTTON_NAME + ": " + pressedString);
+                }
+            });
 
             // Led
             // Step 2.1. Create GPIO connection.
@@ -84,8 +72,8 @@ public class IoTActivity extends Activity {
             ledGpio.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
             // Step 2.3. Repeat using a handler.
             handler.post(blinkRunnable);
-        } catch (IOException exception) {
-            Timber.e(exception);
+        } catch (IOException e) {
+            Timber.e(e);
         }
     }
 
@@ -94,14 +82,10 @@ public class IoTActivity extends Activity {
         super.onDestroy();
 
         // Button
-        // Step 1.6. Close the resource
-        if (buttonGpio != null) {
-            buttonGpio.unregisterGpioCallback(buttonGpioCallback);
-            try {
-                buttonGpio.close();
-            } catch (IOException exception) {
-                Timber.e("Error on PeripheralIO API", exception);
-            }
+        try {
+            button.close();
+        } catch (IOException e) {
+            Timber.e("Error while close " + GPIO_PIN_BUTTON_NAME + "button", e);
         }
 
         // Led
@@ -112,8 +96,8 @@ public class IoTActivity extends Activity {
         if (ledGpio != null) {
             try {
                 ledGpio.close();
-            } catch (IOException exception) {
-                Timber.e("Error on PeripheralIO API", exception);
+            } catch (IOException e) {
+                Timber.e("Error on PeripheralIO API", e);
             }
         }
     }
