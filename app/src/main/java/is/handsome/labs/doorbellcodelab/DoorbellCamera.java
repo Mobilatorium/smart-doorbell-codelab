@@ -21,8 +21,8 @@ import static android.content.Context.CAMERA_SERVICE;
 
 class DoorbellCamera {
     // Camera image parameters (device-specific)
-    private static final int IMAGE_WIDTH = 320;
-    private static final int IMAGE_HEIGHT = 240;
+    private static final int IMAGE_WIDTH = 1280;
+    private static final int IMAGE_HEIGHT = 720;
     private static final int MAX_IMAGES = 1;
     // Image result processor
     private ImageReader imageReader;
@@ -40,7 +40,7 @@ class DoorbellCamera {
                 @Override
                 public void onClosed(@NonNull CameraDevice cameraDevice) {
                     Timber.d("Closed camera, releasing");
-                    cameraDevice = null;
+                    DoorbellCamera.this.cameraDevice = null;
                 }
 
                 @Override
@@ -116,7 +116,7 @@ class DoorbellCamera {
     }
 
     // Initialize a new camera device connection
-    public void initializeCamera(Context context,
+    void initializeCamera(Context context,
             Handler backgroundHandler,
             ImageReader.OnImageAvailableListener imageListener) {
         Timber.d("!DoorbellCamera.initializeCamera");
@@ -156,7 +156,7 @@ class DoorbellCamera {
         }
     }
 
-    public void takePicture() {
+    void takePicture() {
         if (cameraDevice == null) {
             Timber.w("Cannot capture image. Camera not initialized.");
             return;

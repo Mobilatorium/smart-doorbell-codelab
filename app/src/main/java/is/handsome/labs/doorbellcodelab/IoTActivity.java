@@ -1,11 +1,14 @@
 package is.handsome.labs.doorbellcodelab;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.widget.ImageView;
 
 import com.google.android.things.contrib.driver.button.Button;
 import com.google.android.things.pio.Gpio;
@@ -67,12 +70,16 @@ public class IoTActivity extends Activity {
                 }
             };
 
+    private ImageView imageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iot);
 
         Timber.plant(new Timber.DebugTree());
+
+        imageView = (ImageView) findViewById(R.id.image_photo);
 
         PeripheralManagerService service = new PeripheralManagerService();
         Timber.d("Available GPIO: " + service.getGpioList());
@@ -146,6 +153,8 @@ public class IoTActivity extends Activity {
     private void onPictureTaken(byte[] imageBytes) {
         if (imageBytes != null) {
             // ...process the captured image...
+            Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            imageView.setImageBitmap(bitmap);
         }
     }
 
