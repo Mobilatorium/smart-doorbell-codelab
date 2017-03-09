@@ -17,6 +17,7 @@ import com.google.android.things.pio.PeripheralManagerService;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -57,6 +58,8 @@ public class IoTActivity extends Activity {
 
     private Handler cloudVisionHandler;
     private HandlerThread cloudVisionHandlerThread;
+
+    private FirebaseEventService firebaseEventService;
 
     // Callback to receive captured camera image data
     private ImageReader.OnImageAvailableListener onImageAvailableListener =
@@ -122,6 +125,8 @@ public class IoTActivity extends Activity {
 
         startBackgroundThread();
         startCloudVisionThread();
+
+        firebaseEventService = new FirebaseEventService();
     }
 
     @Override
@@ -177,7 +182,9 @@ public class IoTActivity extends Activity {
                 public void run() {
                     try {
                         Timber.d("Sending image to cloud vision.");
-                        CloudVisionUtils.annotateImage(imageBytesCompressed);
+                        Map<String, Float> annotations = CloudVisionUtils
+                                .annotateImage(imageBytesCompressed);
+                        firebaseEventService.pushEvent(imageBytesCompressed, annotations);
                     } catch (IOException e) {
                         Timber.e(e, "Exception while annotating image: ");
                     }
