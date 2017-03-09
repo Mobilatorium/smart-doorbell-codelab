@@ -8,3 +8,5 @@
 .externalNativeBuild
 
 app/google-services\.json
+
+companionApp/google-services\.json
