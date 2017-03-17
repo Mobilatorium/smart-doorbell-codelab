@@ -86,9 +86,7 @@ import com.google.android.things.contrib.driver.button.Button;
 
 // Access the Button and listen for events:
 
-Button button;
-
-button = new Button(gpioPinName,
+Button button = new Button(gpioPinName,
         // high signal indicates the button is pressed
         // use with a pull-down resistor
         Button.LogicState.PRESSED_WHEN_HIGH
