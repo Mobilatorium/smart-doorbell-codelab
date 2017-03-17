@@ -24,7 +24,7 @@
 1\. Создать проект для мобильного устройства с API 24 с пустым Activity.
 
 2\. Добавить зависимость в app-level **build.gradle**. Обратите внимание что зависимость предоставляется, а не компилируется. Это связано с тем, что для каждой Android Things совместимой платы используется своя реализация с общим интерфейсом:
-```
+```groovy
 dependencies {
     ...
     provided 'com.google.android.things:androidthings:0.2-devpreview'
@@ -32,7 +32,7 @@ dependencies {
 ```
 
 3\. Добавить запись об используемой библиотеке в манифест:
-```
+```xml
 <application ...>
     <uses-library android:name="com.google.android.things"/>
     ...
