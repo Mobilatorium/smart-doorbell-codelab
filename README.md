@@ -223,7 +223,7 @@ public class DoorbellCamera {
 
         @Override
         public void onOpened(CameraDevice cameraDevice) {
-            cameraDevice = cameraDevice;
+            DoorbellCamera.this.cameraDevice = cameraDevice;
         }
 
         ...
