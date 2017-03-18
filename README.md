@@ -67,7 +67,7 @@ dependencies {
 Таким образом для подключения к Android Things кнопки нам потребуется:
 
 1\. С помощью соеденительных проводов, макетной платы, резистора и кнопки собрать следующую схему
-https://developer.android.com/things/images/doorbell-button-wiring.png. TODO:перерисовать
+![схема подключения кнопки к Android Things на Raspberry Pi](https://github.com/Mobilatorium/smart-doorbell-codelab/blob/master/scheme.jpg?raw=true)
 **Будьте внимательны, не перепутайте выводы 3.3V и 5V, вам необходим вывод 3.3V.**
 
 2\. Подключить зависимость драйвера в вашем build.gradle уровня приложения.
