@@ -44,7 +44,7 @@ dependencies {
 <application
     android:label="@string/app_name">
     ...
-    <activity android:name=".HomeActivity">
+    <activity android:name=".DoorbellActivity">
         ...
         <!-- Launch activity automatically on boot -->
         <intent-filter>
