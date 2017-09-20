@@ -2,7 +2,7 @@
 
 Пройдя данный codelab, вы познакомитесь с основами разработки IoT девайсов, основанных на Android Things. Основой для codelab послужил пример [Google Cloud Doorbell](https://developer.android.com/things/training/doorbell/index.html). Codelab расчитан на участников, которые уже знакомы с разработкой под Android.
 
-В итоге мы создадим девайс, который фотографирует всех, кто нажал дверной замок, сохраняет фотографию в Firebase и анотирует ее с помощью Google Vison, а также приложение, позволяющее посмотреть всех посетителей.
+В итоге мы создадим девайс, который фотографирует всех, кто нажал на дверной звонок, сохраняет фотографию в Firebase и аннотирует ее с помощью Google Vision, а также приложение, позволяющее посмотреть всех посетителей.
 
 Для прохождения codelab вам понадобится:
 * ноутбук с установленной Android Studio, 
@@ -19,11 +19,11 @@
 
 ## Шаг 1. Создание проекта.
 
-До того как работать с Android Things вам необходимо обновить SDK и SDK tools до версии 24 или выше. Вы должны:
+Перед тем, как работать с Android Things, вам необходимо обновить SDK и SDK tools до версии 24 или выше. Вы должны:
 
 1\. Создать проект для мобильного устройства с API 24 с пустым Activity.
 
-2\. Добавить зависимость в app-level **build.gradle**. Обратите внимание что зависимость предоставляется, а не компилируется. Это связано с тем, что для каждой Android Things совместимой платы используется своя реализация с общим интерфейсом:
+2\. Добавить зависимость в app-level **build.gradle**. Обратите внимание, что зависимость предоставляется, а не компилируется. Это связано с тем, что для каждой Android Things совместимой платы используется своя реализация с общим интерфейсом:
 ```groovy
 dependencies {
     ...
@@ -39,7 +39,7 @@ dependencies {
 </application>
 ```
 
-4\. Добавить записи в манифест, позволяющие запускать IoT приложение при загрузке девайса (именно добавить, стандартный шntent-filter позволит запускать приложение при деплое и дебаге).
+4\. Добавить записи в манифест, позволяющие запускать IoT приложение при загрузке девайса (именно добавить, стандартный intent-filter позволит запускать приложение при деплое и дебаге).
 ```xml
 <application
     android:label="@string/app_name">
@@ -57,12 +57,12 @@ dependencies {
 </application>
 ```
 
-5\. После прохождения этого этапа у вас должно получится что-то [похожее](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%231).
+5\. После прохождения этого этапа у вас должно получиться что-то [похожее](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%231).
 
 ## Шаг 2. Подключение кнопки.
 
-В качестве дверного замка будет выступать тактовая кнопка, закрепленная на макетной плате.
-Для обработки нажатий кнопки к Android Things устройству можно воспользоваться классом [Android Things SDK Gpio](https://developer.android.com/things/sdk/pio/gpio.html), но в этом случае нам придется обрабатывать дребезг кнопки, возникающий в следствии несовершенства физического мира, самостоятельно. Чтобы этого избежать воспользуемся уже готовой библиотекой для работы с кнопками. Библиотеки для работы с физическими компонентами в Android Things называются драйверы. Примеры готовых драйверов можно увидеть в [официальном репозитории Android Things](https://github.com/androidthings/contrib-drivers).
+В качестве дверного звонка будет выступать тактовая кнопка, закрепленная на макетной плате.
+Для обработки нажатий кнопки к Android Things устройству можно воспользоваться классом [Android Things SDK Gpio](https://developer.android.com/things/sdk/pio/gpio.html), но в этом случае нам придется обрабатывать дребезг кнопки, возникающий вследствие несовершенства физического мира, самостоятельно. Чтобы этого избежать, воспользуемся уже готовой библиотекой для работы с кнопками. Библиотеки для работы с физическими компонентами в Android Things называются драйверами. Примеры готовых драйверов можно увидеть в [официальном репозитории Android Things](https://github.com/androidthings/contrib-drivers).
 
 Таким образом для подключения к Android Things кнопки нам потребуется:
 
@@ -92,7 +92,7 @@ Button button = new Button(gpioPinName,
         Button.LogicState.PRESSED_WHEN_HIGH
 );
 ```
-gpioPinName - string аргумент, задающий название порта к которому вы подключили кнопку. Перечень всех доступных портов для Raspberry Pi вы можете увидеть на [схеме](https://developer.android.com/things/images/pinout-raspberrypi.png). 
+gpioPinName - string аргумент, задающий название порта, к которому вы подключили кнопку. Перечень всех доступных портов для Raspberry Pi вы можете увидеть на [схеме](https://developer.android.com/things/images/pinout-raspberrypi.png). 
 
 4\. Прикрепить к созданной кнопки слушателя событий:
 ```java
@@ -104,12 +104,12 @@ button.setOnButtonEventListener(new OnButtonEventListener() {
 });
 ```
 
-5\. И не забыть освободить ресурсы, когда они нам перестануть быть нужными (в onDestroy).
+5\. И не забыть освободить ресурсы, когда они нам перестануть быть нужны (в onDestroy).
 ```java
 button.close();
 ```
 
-6\. После прохождения этого этапа у вас должно получится что-то [похожее](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%232).
+6\. После прохождения этого этапа у вас должно получиться что-то [похожее](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%232).
 
 ## Шаг 3. Подключение камеры.
 
@@ -117,7 +117,7 @@ button.close();
 
 Для взаимодействия с камерой из Android Things приложения необходимо:
 
-1\. Указать в манифесте приложения запрос разрешение на использование камеры:
+1\. Указать в манифесте приложения разрешение на использование камеры:
 ```xml
 <uses-permission android:name="android.permission.CAMERA" />
 ```
@@ -246,7 +246,7 @@ public class DoorbellCamera {
 }
 ```
 
-6\. Реализовать метод для фотографирования. Он будет вызываться по нажатию на кнопку-звонок. Сессию фотогарфирования можно реализовать с помощью **CameraCaptureSession**, в качечестве surface необходимо передать surface **ImageReader**, созданного ранее, а в **StateCallback** реагировать на успешное\не успешное конфигурирование сессии.
+6\. Реализовать метод для фотографирования. Он будет вызываться по нажатию на кнопку-звонок. Сессию фотографирования можно реализовать с помощью **CameraCaptureSession**, в качестве surface необходимо передать surface **ImageReader**, созданного ранее, а в **StateCallback** реагировать на успешное\не успешное конфигурирование сессии.
 
 ```java
 public class DoorbellCamera {
@@ -289,7 +289,7 @@ public class DoorbellCamera {
 }
 ```
 
-7\. Реализовать метод для фотографирования. Для этого будем использовать **CaptureRequest**, surface созданого ранее **ImageReader**. По завершению фотографирования необходимо освободить ресурсы (закрыть сессию).
+7\. Реализовать метод для фотографирования. Для этого будем использовать **CaptureRequest**, surface созданного ранее **ImageReader**. По завершении фотографирования необходимо освободить ресурсы (закрыть сессию).
 
 ```java
 public class DoorbellCamera {
@@ -335,7 +335,7 @@ public class DoorbellCamera {
 }
 ```
 
-8\. Для использования фотографии c Google Cloud Vision удобно ее сериализовать, представивь в виде массива байтов. Это удобно делать в **Activity**, а не в **DoorbellCamera** классе, так как в дальнейшем эта инфомрация будет передаваться для использования с GoogleVision.
+8\. Для использования фотографии c Google Cloud Vision удобно ее сериализовать, представив в виде массива байтов. Это удобно делать в **Activity**, а не в **DoorbellCamera** классе, так как в дальнейшем эта информация будет передаваться для использования с GoogleVision.
 
 ```java
 public class DoorbellActivity extends Activity {
@@ -409,15 +409,15 @@ Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
 imageView.setImageBitmap(bitmap);
 ```
 
-10\. После прохождения этого этапа у вас должно получится что-то [похожее](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%233).
+10\. После прохождения этого этапа у вас должно получиться что-то [похожее](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%233).
 
 ## Шаг 4. Подключение Google Cloud Vision и анализ изображения.
 
-Google Cloud Vision предоставляет широки перечень инструментов для обработке изображений. В данном codelab мы будем использовать аннотирование с помощью меток. Это позволит нам выяснить что находится на изображении. Для работы с ним вам потребуется Cloud Vision API key. Тестовый API key вы можете получить у организаторов codelab, в случае если вы проходите codelab самостоятельно вам потребуется зарегистироваться в [Cloud Vision](https://cloud.google.com/vision/docs/quickstart), создать свой проект и [сгенерировать ключ для Android приложения](https://cloud.google.com/vision/docs/common/auth). Обратите внимание, что обработка изображения и запрос НЕ должны выполняться в главном потоке.
+Google Cloud Vision предоставляет широкий перечень инструментов для обработки изображений. В данном codelab мы будем использовать аннотирование с помощью меток. Это позволит нам выяснить, что находится на изображении. Для работы с ним вам потребуется Cloud Vision API key. Тестовый API key вы можете получить у организаторов codelab. В случае если вы проходите codelab самостоятельно - вам потребуется зарегистрироваться в [Cloud Vision](https://cloud.google.com/vision/docs/quickstart), создать свой проект и [сгенерировать ключ для Android приложения](https://cloud.google.com/vision/docs/common/auth). Обратите внимание, что обработка изображения и запрос НЕ должны выполняться в главном потоке.
 
 Далее вам необходимо:
 
-1\. Добавить в проект на уровне приложения следующий зависимости:
+1\. Добавить в проект на уровне приложения следующие зависимости:
 
 ```groovy
 dependencies {
@@ -453,7 +453,7 @@ Vision vision = new Vision.Builder(httpTransport, jsonFactory, null)
         .build();
 ```
 
-5\. Создать новый объект запроса **AnnotateImageRequest** и добавить к нему описание запроса с помощью объекта тап **Feature**. 
+5\. Создать новый объект запроса **AnnotateImageRequest** и добавить к нему описание запроса с помощью объекта типа **Feature**. 
 
 ```java
 // Create the image request
@@ -481,7 +481,7 @@ BatchAnnotateImagesResponse response = vision.images()
         .execute();
 ```
 
-7\. В результате выполнения запроса мы получим объект типа **BatchAnnotateImagesResponse**. Для нашей задачи нам необходимы только список аннотаций, поэтому напишем небольшой метод для конвертации из **BatchAnnotateImagesResponse** в Map<String, Float>.
+7\. В результате выполнения запроса мы получим объект типа **BatchAnnotateImagesResponse**. Для нашей задачи нам необходим только список аннотаций, поэтому напишем небольшой метод для конвертации из **BatchAnnotateImagesResponse** в Map<String, Float>.
 
 ```java
 private Map<String, Float> convertResponseToMap(BatchAnnotateImagesResponse response) {
@@ -499,9 +499,9 @@ private Map<String, Float> convertResponseToMap(BatchAnnotateImagesResponse resp
 }
 ```
 
-8\. Таким образом, вызвав метод, реализующий запрос к Google Vision API из созданного в преведующем шаге метода **onPictureTaken** и передав ему в качестве аргумента байтовый массив, описывающий фотографию. Мы получим список аннотаций для дальнейшего использования.
+8\. Вызываем метод, реализующий запрос к Google Vision API из созданного на предыдущем шаге метода **onPictureTaken** и передаем ему в качестве аргумента байтовый массив, описывающий фотографию. Таким образом, мы получим список аннотаций для дальнейшего использования.
 
-9.\ После прохождения этого этапа у вас должно получится что-то [похожее](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%234).
+9\. После прохождения этого этапа у вас должно получиться что-то [похожее](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%234).
 
 ## Шаг 5. Сохранение информации в Firebase.
 
@@ -511,7 +511,7 @@ private Map<String, Float> convertResponseToMap(BatchAnnotateImagesResponse resp
 
 2\. Скачать google-services.json файл и сохранить его в папке с вашим android приложением.
 
-3\. Добавить заивисимости в **build.gradle** на уровне проекта:
+3\. Добавить зависимости в **build.gradle** на уровне проекта:
 
 ```groovy
 buildscript {
@@ -558,7 +558,7 @@ dependencies {
 }
 ```
 
-Для этого необходимо инциазировать объект **FirebaseDatabase** и сохранять все значения с помощью объекта **DatabaseReference**.
+Для этого необходимо инициализировать объект **FirebaseDatabase** и сохранять все значения с помощью объекта **DatabaseReference**.
 
 ```java
 FirebaseDatabase database;
@@ -604,7 +604,7 @@ private void onPictureTaken(byte[] imageBytes) {
 
 ## Шаг 6. Парное Android приложение.
 
-Не у всех Android Things устройств есть устройства ввода\вывода (дисплей, клавиатура и т. д .), поэтому для отображения подробной информации о событиях и настройки устройства целесообразно использовать отдельное приложения, к примеру Android приложение. На этом шаге мы создадим Android приложение для отображения событий звонка в дверь. Для этого необходимо:
+Не у всех Android Things устройств есть устройства ввода\вывода (дисплей, клавиатура и т. д .), поэтому для отображения подробной информации о событиях и настройки устройства целесообразно использовать отдельные приложения, к примеру Android приложение. На этом шаге мы создадим Android приложение для отображения событий звонка в дверь. Для этого необходимо:
 
 1\. Создать новый модуль в проекте и добавить firebase зависимости к модулю на уровне проекта:
 
@@ -630,7 +630,7 @@ dependencies {
 ```
 По сравнению с шагом № 5 мы добавили еще вспомогательную библиотеку **firebase-ui-database**, позволяющую проще отображать UI элементы, зависящие от Firebase.
 
-2\. Добавить к новому модулю файл **google-services.json**. Обратите внимание на то, что в случае если application id будет отличаться - вам необходимо добавить новое приложение в [firebase console](https://console.firebase.google.com/)и скачать новый **google-services.json**.
+2\. Добавить к новому модулю файл **google-services.json**. Обратите внимание на то, что в случае если application id будет отличаться - вам необходимо добавить новое приложение в [firebase console](https://console.firebase.google.com/) и скачать новый **google-services.json**.
 
 3\. Для взаимодействия с **Firebase** необходимо создать класс-модель, описывающий структуру хранимого события.
 
@@ -664,7 +664,7 @@ public class DoorbellEntry {
 }
 ```
 
-4\. **FirebaseRecyclerAdapter** из библиотеки **FirebaseUI** позволит очень просто отображать содержимое нашего массива событий в **Recyclerview**. По необходимости имплементация метода **populateViewHolder** будет наполнять ViewHolder для каждого из хранимых событий. 
+4\. **FirebaseRecyclerAdapter** из библиотеки **FirebaseUI** позволит очень просто отображать содержимое нашего массива событий в **RecyclerView**. По необходимости имплементация метода **populateViewHolder** будет наполнять ViewHolder для каждого из хранимых событий. 
 
 ```java
 public class DoorbellEntryAdapter extends FirebaseRecyclerAdapter<DoorbellEntry, DoorbellEntryAdapter.DoorbellEntryViewHolder> {
@@ -730,6 +730,4 @@ public class DoorbellEntryAdapter extends FirebaseRecyclerAdapter<DoorbellEntry,
 }
 ```
 
-5\. Создав **RecyclerView** и установив для него созданный **DoorbellEntryAdapter** мы сможем отображать сделанные фотографии и полученные с помощью Google Cloud Vision аннотации. [Пример получившегося кода](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%236).
-
-Этот codelab основан на [официальном примере] (https://github.com/androidthings/doorbell).
+5\. Создав **RecyclerView** и установив для него созданный **DoorbellEntryAdapter**, мы сможем отображать сделанные фотографии и полученные с помощью Google Cloud Vision аннотации. [Пример получившегося кода](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%236).
