@@ -217,6 +217,14 @@ public class DoorbellCamera {
         }
     }
 
+    private static class InstanceHolder {
+        private static DoorbellCamera mCamera = new DoorbellCamera();
+    }
+    
+    static DoorbellCamera getInstance() {
+        return InstanceHolder.mCamera;
+    }
+    
     // Callback handling devices state changes
     private final CameraDevice.StateCallback mStateCallback =
             new CameraDevice.StateCallback() {
