@@ -720,3 +720,5 @@ public class DoorbellEntryAdapter extends FirebaseRecyclerAdapter<DoorbellEntry,
 ```
 
 5\. Создав **RecyclerView** и установив для него созданный **DoorbellEntryAdapter** мы сможем отображать сделанные фотографии и полученные с помощью Google Cloud Vision аннотации. [Пример получившегося кода](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%236).
+
+Этот codelab основан на [официальном примере] (https://github.com/androidthings/doorbell).
