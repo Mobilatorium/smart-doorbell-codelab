@@ -109,7 +109,7 @@ button.setOnButtonEventListener(new OnButtonEventListener() {
 button.close();
 ```
 
-6\. После прохождения этого этапа у вас должно получится что-то [похожее](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%232).
+6\. После прохождения этого этапа у вас должно получиться что-то [похожее](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%232).
 
 ## Шаг 3. Подключение камеры.
 
