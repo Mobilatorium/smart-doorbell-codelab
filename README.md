@@ -57,7 +57,7 @@ dependencies {
 </application>
 ```
 
-5\. После прохождения этого этапа у вас должно получится что-то [похожее](https://github.com/Mobilatorium/smart-doorbell-codelab/releases/tag/Step%231).
+5\. После прохождения этого этапа у вас должно получится что-то [похожее](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%231).
 
 ## Шаг 2. Подключение кнопки.
 
@@ -109,7 +109,7 @@ button.setOnButtonEventListener(new OnButtonEventListener() {
 button.close();
 ```
 
-6\. После прохождения этого этапа у вас должно получится что-то [похожее](https://github.com/Mobilatorium/smart-doorbell-codelab/releases/tag/Step%232).
+6\. После прохождения этого этапа у вас должно получится что-то [похожее](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%232).
 
 ## Шаг 3. Подключение камеры.
 
@@ -396,7 +396,7 @@ Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
 imageView.setImageBitmap(bitmap);
 ```
 
-10\. После прохождения этого этапа у вас должно получится что-то [похожее](https://github.com/Mobilatorium/smart-doorbell-codelab/releases/tag/Step%233).
+10\. После прохождения этого этапа у вас должно получится что-то [похожее](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%233).
 
 ## Шаг 4. Подключение Google Cloud Vision и анализ изображения.
 
@@ -488,7 +488,7 @@ private Map<String, Float> convertResponseToMap(BatchAnnotateImagesResponse resp
 
 8\. Таким образом, вызвав метод, реализующий запрос к Google Vision API из созданного в преведующем шаге метода **onPictureTaken** и передав ему в качестве аргумента байтовый массив, описывающий фотографию. Мы получим список аннотаций для дальнейшего использования.
 
-9.\ После прохождения этого этапа у вас должно получится что-то [похожее](https://github.com/Mobilatorium/smart-doorbell-codelab/releases/tag/Step%234).
+9.\ После прохождения этого этапа у вас должно получится что-то [похожее](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%234).
 
 ## Шаг 5. Сохранение информации в Firebase.
 
@@ -581,7 +581,7 @@ private void onPictureTaken(byte[] imageBytes) {
 }
 ```
 
-6\. На этом этапе вы можете видеть события нажатия на кнопку, закодированную информацию об изображении и присвоенные ему аннотации. [Примерный код на этом шаге](https://github.com/Mobilatorium/smart-doorbell-codelab/releases/tag/Step%235\).
+6\. На этом этапе вы можете видеть события нажатия на кнопку, закодированную информацию об изображении и присвоенные ему аннотации. [Примерный код на этом шаге](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%235).
 
 ## Шаг 6. Парное Android приложение.
 
@@ -711,4 +711,4 @@ public class DoorbellEntryAdapter extends FirebaseRecyclerAdapter<DoorbellEntry,
 }
 ```
 
-5\. Создав **RecyclerView** и установив для него созданный **DoorbellEntryAdapter** мы сможем отображать сделанные фотографии и полученные с помощью Google Cloud Vision аннотации. [Пример получившегося кода](https://github.com/Mobilatorium/smart-doorbell-codelab/releases/tag/Step%236).
+5\. Создав **RecyclerView** и установив для него созданный **DoorbellEntryAdapter** мы сможем отображать сделанные фотографии и полученные с помощью Google Cloud Vision аннотации. [Пример получившегося кода](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%236).
