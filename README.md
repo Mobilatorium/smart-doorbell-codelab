@@ -391,7 +391,12 @@ public class DoorbellActivity extends Activity {
 
     private void onPictureTaken(byte[] imageBytes) {
         if (imageBytes != null) {
-            // ...process the captured image...
+            // Compress image
+            Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream);
+            final byte[] imageBytesCompressed = byteArrayOutputStream.toByteArray();
+            ...
         }
     }
 }
@@ -454,7 +459,7 @@ Vision vision = new Vision.Builder(httpTransport, jsonFactory, null)
 // Create the image request
 AnnotateImageRequest imageRequest = new AnnotateImageRequest();
 Image image = new Image();
-image.encodeContent(imageBytes);
+image.encodeContent(imageBytesCompressed);
 imageRequest.setImage(image);
 
 // Add the features we want
@@ -567,15 +572,21 @@ database = FirebaseDatabase.getInstance();
 private void onPictureTaken(byte[] imageBytes) {
     if (imageBytes != null) {
         try {
+            // Compress image
+            Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream);
+            final byte[] imageBytesCompressed = byteArrayOutputStream.toByteArray();
+            
             // Process the image using Cloud Vision
-            Map<String, Float> annotations = annotateImage(imageBytes);
+            Map<String, Float> annotations = annotateImage(imageBytesCompressed);
 
             // Write the contents to Firebase
             final DatabaseReference log = database.getReference("logs").push();
             log.child("timestamp").setValue(ServerValue.TIMESTAMP);
 
             // Save image data Base64 encoded
-            String encoded = Base64.encodeToString(imageBytes,
+            String encoded = Base64.encodeToString(imageBytesCompressed,
                     Base64.NO_WRAP | Base64.URL_SAFE);
             log.child("image").setValue(encoded);
 
