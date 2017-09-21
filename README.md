@@ -606,18 +606,7 @@ private void onPictureTaken(byte[] imageBytes) {
 
 Не у всех Android Things устройств есть устройства ввода\вывода (дисплей, клавиатура и т. д .), поэтому для отображения подробной информации о событиях и настройки устройства целесообразно использовать отдельные приложения, к примеру Android приложение. На этом шаге мы создадим Android приложение для отображения событий звонка в дверь. Для этого необходимо:
 
-1\. Создать новый модуль в проекте и добавить firebase зависимости к модулю на уровне проекта:
-
-```groovy
-buildscript {
-  dependencies {
-    ...
-    classpath 'com.google.gms:google-services:3.0.0'
-  }
-}
-```
-
-И на уровне приложения:
+1\. Создать новый модуль в проекте и добавить firebase зависимости к модулю на уровне приложения:
 
 ```groovy
 dependencies {
@@ -628,6 +617,18 @@ dependencies {
     compile 'com.firebaseui:firebase-ui-database:0.5.3'
 }
 ```
+
+А также убедитесь, что на уровне проекта добавлена следующая зависимость:
+
+```groovy
+buildscript {
+  dependencies {
+    ...
+    classpath 'com.google.gms:google-services:3.0.0'
+  }
+}
+```
+
 По сравнению с шагом № 5 мы добавили еще вспомогательную библиотеку **firebase-ui-database**, позволяющую проще отображать UI элементы, зависящие от Firebase.
 
 2\. Добавить к новому модулю файл **google-services.json**. Обратите внимание на то, что в случае если application id будет отличаться - вам необходимо добавить новое приложение в [firebase console](https://console.firebase.google.com/) и скачать новый **google-services.json**.
@@ -711,7 +712,7 @@ public class DoorbellEntryAdapter extends FirebaseRecyclerAdapter<DoorbellEntry,
                 viewHolder.image.setImageBitmap(bitmap);
             } else {
                 Drawable placeholder =
-                        ContextCompat.getDrawable(applicationContext, R.drawable.ic_placeholder);
+                        ContextCompat.getDrawable(applicationContext, R.drawable.ic_image);
                 viewHolder.image.setImageDrawable(placeholder);
             }
         }
@@ -728,6 +729,45 @@ public class DoorbellEntryAdapter extends FirebaseRecyclerAdapter<DoorbellEntry,
     }
 
 }
+```
+
+В качестве ic_image вы можете использовать любую иконку/плейсхолдер.
+
+Приведенный ViewHolder наполняет следующий layout:
+
+```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
+
+        <ImageView
+            android:layout_width="220dp"
+            android:layout_height="match_parent"
+            android:id="@+id/imageView1" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:id="@+id/textView1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView2" />
+        </LinearLayout>
+    </LinearLayout>
 ```
 
 5\. Создав **RecyclerView** и установив для него созданный **DoorbellEntryAdapter**, мы сможем отображать сделанные фотографии и полученные с помощью Google Cloud Vision аннотации. [Пример получившегося кода](https://github.com/Mobilatorium/smart-doorbell-codelab/tree/Step%236).
