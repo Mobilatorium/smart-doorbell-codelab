@@ -15,7 +15,7 @@ class FirebaseEventService {
         firebaseDatabase = FirebaseDatabase.getInstance();
     }
 
-    void pushEvent(byte [] imageBytes, Map<String, Float> annotations) {
+    void pushEvent(byte[] imageBytes, Map<String, Float> annotations) {
         DatabaseReference logReference = firebaseDatabase.getReference("logs").push();
         logReference.child("timestamp").setValue(ServerValue.TIMESTAMP);
 

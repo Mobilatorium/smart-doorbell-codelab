@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "is.handsome.labs.doorbellcodelab"
         minSdkVersion 24
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -22,17 +22,14 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-
+    compile 'com.jakewharton.timber:timber:4.5.1'
     compile 'com.google.api-client:google-api-client-android:1.22.0' exclude module: 'httpclient'
     compile 'com.google.http-client:google-http-client-gson:1.22.0' exclude module: 'httpclient'
-
-    compile 'com.jakewharton.timber:timber:4.5.1'
-    compile 'com.google.android.things.contrib:driver-button:0.2'
     compile 'com.google.apis:google-api-services-vision:v1-rev22-1.22.0'
-
+    compile 'com.google.android.things.contrib:driver-button:0.4'
+    provided 'com.google.android.things:androidthings:0.5.1-devpreview'
     compile 'com.google.firebase:firebase-core:10.2.0'
     compile 'com.google.firebase:firebase-database:10.2.0'
-    provided 'com.google.android.things:androidthings:0.2-devpreview'
 }
 
 apply plugin: 'com.google.gms.google-services'
