@@ -28,4 +28,8 @@ dependencies {
     compile 'com.google.apis:google-api-services-vision:v1-rev22-1.22.0'
     compile 'com.google.android.things.contrib:driver-button:0.4'
     provided 'com.google.android.things:androidthings:0.5.1-devpreview'
+    compile 'com.google.firebase:firebase-core:10.2.0'
+    compile 'com.google.firebase:firebase-database:10.2.0'
 }
+
+apply plugin: 'com.google.gms.google-services'
