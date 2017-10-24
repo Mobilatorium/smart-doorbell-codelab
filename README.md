@@ -19,15 +19,15 @@
 
 ## Шаг 1. Создание проекта.
 
-Перед тем, как работать с Android Things, вам необходимо обновить SDK и SDK tools до версии 24 или выше. Вы должны:
+Перед тем, как работать с Android Things, вам необходимо обновить SDK и SDK tools до версии 26 или выше. Вы должны:
 
-1\. Создать проект для мобильного устройства с API 24 с пустым Activity.
+1\. Создать проект для мобильного устройства с API 26 с пустым Activity.
 
 2\. Добавить зависимость в app-level **build.gradle**. Обратите внимание, что зависимость предоставляется, а не компилируется. Это связано с тем, что для каждой Android Things совместимой платы используется своя реализация с общим интерфейсом:
 ```groovy
 dependencies {
     ...
-    provided 'com.google.android.things:androidthings:0.2-devpreview'
+    provided 'com.google.android.things:androidthings:0.5.1-devpreview'
 }
 ```
 
@@ -75,7 +75,7 @@ dependencies {
 dependencies {
     ...
 
-    compile 'com.google.android.things.contrib:driver-button:0.2'
+    compile 'com.google.android.things.contrib:driver-button:0.4'
 }
 ```
 
