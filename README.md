@@ -612,8 +612,8 @@ private void onPictureTaken(byte[] imageBytes) {
 dependencies {
     ...
 
-    compile 'com.google.firebase:firebase-core:9.6.1'
-    compile 'com.google.firebase:firebase-database:9.6.1'
+    compile 'com.google.firebase:firebase-core:11.4.2' 
+    compile 'com.google.firebase:firebase-database:11.4.2' 
     compile 'com.firebaseui:firebase-ui-database:0.5.3'
 }
 ```
