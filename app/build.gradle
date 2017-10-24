@@ -23,6 +23,9 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile 'com.jakewharton.timber:timber:4.5.1'
+    compile 'com.google.api-client:google-api-client-android:1.22.0' exclude module: 'httpclient'
+    compile 'com.google.http-client:google-http-client-gson:1.22.0' exclude module: 'httpclient'
+    compile 'com.google.apis:google-api-services-vision:v1-rev22-1.22.0'
     compile 'com.google.android.things.contrib:driver-button:0.4'
     provided 'com.google.android.things:androidthings:0.5.1-devpreview'
 }
